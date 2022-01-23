@@ -18,4 +18,12 @@ class Route {
     public static function POST($url, $handler) {
         return self::createRoute($url, $handler, "POST");
     }
+
+    public static function DELETE($url, $handler) {
+        return self::createRoute($url, $handler, "DELETE");
+    }
+
+    public static function PUT($url, $handler) {
+        return self::createRoute($url, $handler, "PUT");
+    }
 }
