@@ -2,14 +2,18 @@
 
 namespace App\Services\Routing;
 
-use Error;
+use App\Services\Response\JSONResponse;
 
 class Router {
     private $routes = [];
+    private $incorrectRoutes = [];
 
     public function __construct($routes) {
         $this->routes = $routes;
-        $this->handleCurrentRoute();
+        
+        if(count($this->routes) > 0 ) { 
+            $this->handleCurrentRoute();
+        }
     }
 
     /**
@@ -32,32 +36,38 @@ class Router {
             $params = $dynamicRouteResult[1];
 
             call_user_func_array($route['handler'], $params);
+
+            return ;
         }
+
+        JSONResponse::message(404, "Error occured: Route " . $urlQuery . " not found.");
     }
 
     /** 
     *   Check if current route that user requests
     *   is a static route (has no parameters).
     *
-    *   @param string $urlQuery route that user requests
+    *   @param string $_urlQuery route that user requests
     *
     *   @return array route if found or false if not
     */
-    private function findStaticRoute($urlQuery) {
-        $foundWithIncorrectMethod = [];
+    private function findStaticRoute($_urlQuery) {
+        $urlQuery = $this->trimURLString($_urlQuery);
+        
+        if($urlQuery == NULL) $urlQuery = "/";
 
         foreach($this->routes as $route)  {
-            if($route['url'] === '/' . $urlQuery) {
+            $routeUrl = $this->trimURLString($route['url']);
+            
+            if($routeUrl == NULL) $routeUrl = "/";
+
+            if($routeUrl === $urlQuery) {
                 if($this->isRequestMethodCorrect($route)) {
                     return $route;
                 } else {
-                    $foundWithIncorrectMethod[] = $route;
+                    $this->handleIncorrectRoutes($route);
                 }
             }
-        }
-
-        if($foundWithIncorrectMethod != []) {
-            $this->handleIncorrectRoutes($foundWithIncorrectMethod);
         }
 
         return false;
@@ -71,8 +81,6 @@ class Router {
      * @return array if route found or false if wasn't
      */
     private function findDynamicRoute($_urlQuery) {
-        $foundWithIncorrectMethod = [];
-        
         $urlQuery = explode('/', $this->trimURLString($_urlQuery));
 
         foreach($this->routes as $route) {
@@ -84,15 +92,13 @@ class Router {
 
             $params = $this->getDynamicRoutesParams($urlQuery, $routeUrl);
 
-            if($params && $this->isRequestMethodCorrect($route)) {
-                return [$route, $params];
-            } else {
-                $foundWithIncorrectMethod[] = $route;
+            if($params) {
+                if( $this->isRequestMethodCorrect($route)){
+                    return [$route, $params];
+                } else {
+                    $this->handleIncorrectRoutes($route);
+                }
             }
-        }
-
-        if($foundWithIncorrectMethod != []) {
-            $this->handleIncorrectRoutes($foundWithIncorrectMethod);
         }
 
         return false;
@@ -165,20 +171,14 @@ class Router {
     }
 
     /**
-     * Throw error if route requested with wrong method
+     * Display if route requested with wrong method
      * 
      * @return void
      */
-    private function handleIncorrectRoutes($routes) {
-        foreach($routes as $incorretRoute) {
-            throw new Error(
-                "Route " . 
-                $incorretRoute['url'] . 
-                " is not support " . 
-                $_SERVER['REQUEST_METHOD'] . 
-                ". It it configured for " . 
-                $incorretRoute['method'] 
-            );
-        } 
+    private function handleIncorrectRoutes($route) {
+        if(!in_array($route['url'], $this->incorrectRoutes)) {
+            JSONResponse::message(400, "Error occured: `" . $route['url'] . "` route not configured for " . $_SERVER['REQUEST_METHOD']. " request method.");
+            $this->incorrectRoutes[] = $route['url'];
+        }
     }
 }
