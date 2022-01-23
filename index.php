@@ -3,6 +3,8 @@
 require_once __DIR__."/vendor/autoload.php";
 require_once __DIR__."/app/routes.php";
 
-use App\Services\Routing\Router;
+use App\App;
 
-new Router($routes);
+$app = new App();
+
+$app->setupRouter($routes);
