@@ -2,6 +2,6 @@
 
 namespace App\Controllers\Core;
 
-class Controller {
+interface Controller {
     /* It might be here something in the future */
 }
