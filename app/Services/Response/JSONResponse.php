@@ -34,7 +34,7 @@ class JSONResponse {
     }
 
     /**
-     * Send respones to the POST request
+     * Send response to the POST request
      * 
      * @param bool $result result of create operation
      */
@@ -47,7 +47,7 @@ class JSONResponse {
     }
 
     /**
-     * Send respones with code 200 or 520 if failed
+     * Send response with code 200 if succeed or 520 if failed
      * 
      * @param bool $result result of create operation
      */
