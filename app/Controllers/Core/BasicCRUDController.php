@@ -5,7 +5,7 @@ namespace App\Controllers\Core;
 use App\Controllers\Core\Controller;
 use App\Services\Response\JSONResponse;
 
-class BasicCRUDController extends Controller {
+abstract class BasicCRUDController implements Controller {
     protected $Model = null;
 
     /**
@@ -13,14 +13,21 @@ class BasicCRUDController extends Controller {
      */
     public function getAllRecords() {
         $allRecords = $this->Model->getAll();
-        JSONResponse::getResponse($allRecords);
+        JSONResponse::GETResponse($allRecords);
     }
 
     /**
      * Get single record by id
+     * 
+     * @param int $id
      */
     public function getById($id) {
         $record = $this->Model->getById($id);
-        JSONResponse::getResponse($record);
+        JSONResponse::GETResponse($record);
+    }
+
+    public function delete($id) {
+        $result = $this->Model->deleteById($id);
+        JSONResponse::DefaultSuccessResponse($result);
     }
 }
