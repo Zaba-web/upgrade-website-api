@@ -26,7 +26,7 @@ class NewsController extends BasicCRUDController {
     }
 
     public function update($id) {
-        $_PUT = json_decode(file_get_contents('php://input'), true);
+        $_PUT = $this->getPutData();
 
         $model = [
             'date' => $_PUT['date'],
