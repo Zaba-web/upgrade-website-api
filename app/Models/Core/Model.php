@@ -101,14 +101,20 @@ abstract class Model {
         return false;
     }
 
+    /**
+     * Update record in table
+     * 
+     * @param int $_id id of record
+     * @param array $model new record state 
+     */
     public function updateById($_id, $model) {
         $id = DB::GetInstance()->real_escape_string($_id);
+        
         $modelData = $this->handleInputModel($model, false);
         $keys = $modelData[0];
-        $values = $modelData[1];
+        $values = $modelData[1];;
 
         $updateArray = [];
-        
         for($i = 0; $i < count($keys); $i++) {
             $updateArray[] = $keys[$i] . "=" . $values[$i];
         }
