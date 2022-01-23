@@ -12,7 +12,16 @@ $routes = [
         $newsController = new NewsController();
         $newsController->getById($id);
     }),
-    Route::GET('/', function(){
-        echo "Hello";
+    Route::POST('/news', function(){
+        $newsController = new NewsController();
+        $newsController->create();
+    }),
+    Route::DELETE('/news/*', function($id){
+        $newsController = new NewsController();
+        $newsController->delete($id);
+    }),
+    Route::PUT('/news/*', function($id){
+        $newsController = new NewsController();
+        $newsController->update($id);
     })
 ];
