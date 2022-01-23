@@ -25,11 +25,37 @@ class JSONResponse {
      * 
      * @param array $records fetched data from database
      */
-    public static function getResponse($records) {
+    public static function GETResponse($records) {
         if($records) {
             JSONResponse::message(202, $records);
         } else {
             JSONResponse::message(204, []);
+        }
+    }
+
+    /**
+     * Send respones to the POST request
+     * 
+     * @param bool $result result of create operation
+     */
+    public static function POSTResponse($result) {
+        if($result) {
+            JSONResponse::message(201, []);
+        } else {
+            JSONResponse::message(400, []);
+        }
+    }
+
+    /**
+     * Send respones with code 200 or 520 if failed
+     * 
+     * @param bool $result result of create operation
+     */
+    public static function DefaultSuccessResponse($result) {
+        if($result) {
+            JSONResponse::message(200, []);
+        } else {
+            JSONResponse::message(520, []);
         }
     }
 }
