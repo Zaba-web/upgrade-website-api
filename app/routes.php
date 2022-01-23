@@ -4,24 +4,24 @@ use App\Services\Routing\Route;
 use App\Controllers\NewsController;
 
 $routes = [
-    Route::GET('/news', function(){
+    Route::DECLARE('/news', function(){
         $newsController = new NewsController();
         $newsController->getAllRecords();
-    }),
-    Route::GET('/news/*', function($id){
+    }, "GET"),
+    Route::DECLARE('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->getById($id);
-    }),
-    Route::POST('/news', function(){
+    }, "GET"),
+    Route::DECLARE('/news', function(){
         $newsController = new NewsController();
         $newsController->create();
-    }),
-    Route::DELETE('/news/*', function($id){
+    }, "POST"),
+    Route::DECLARE('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->delete($id);
-    }),
-    Route::PUT('/news/*', function($id){
+    }, "DELETE"),
+    Route::DECLARE('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->update($id);
-    })
+    }, "PUT")
 ];
