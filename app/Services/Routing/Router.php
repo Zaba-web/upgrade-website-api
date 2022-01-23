@@ -52,23 +52,22 @@ class Router {
     *   @return array route if found or false if not
     */
     private function findStaticRoute($_urlQuery) {
+        $incorrectRoute = null;
         $urlQuery = $this->trimURLString($_urlQuery);
-        
-        if($urlQuery == NULL) $urlQuery = "/";
 
         foreach($this->routes as $route)  {
             $routeUrl = $this->trimURLString($route['url']);
-            
-            if($routeUrl == NULL) $routeUrl = "/";
 
             if($routeUrl === $urlQuery) {
                 if($this->isRequestMethodCorrect($route)) {
                     return $route;
                 } else {
-                    $this->handleIncorrectRoutes($route);
+                    $incorrectRoute = $route;
                 }
             }
         }
+
+        $this->handleIncorrectRoutes($incorrectRoute);
 
         return false;
     }
@@ -81,6 +80,7 @@ class Router {
      * @return array if route found or false if wasn't
      */
     private function findDynamicRoute($_urlQuery) {
+        $incorrectRoute = null;
         $urlQuery = explode('/', $this->trimURLString($_urlQuery));
 
         foreach($this->routes as $route) {
@@ -93,13 +93,15 @@ class Router {
             $params = $this->getDynamicRoutesParams($urlQuery, $routeUrl);
 
             if($params) {
-                if( $this->isRequestMethodCorrect($route)){
+                if($this->isRequestMethodCorrect($route)){
                     return [$route, $params];
                 } else {
-                    $this->handleIncorrectRoutes($route);
+                    $incorrectRoute = $route;
                 }
             }
         }
+
+        $this->handleIncorrectRoutes($incorrectRoute);
 
         return false;
     }
@@ -176,8 +178,8 @@ class Router {
      * @return void
      */
     private function handleIncorrectRoutes($route) {
-        if(!in_array($route['url'], $this->incorrectRoutes)) {
-            JSONResponse::message(400, "Error occured: `" . $route['url'] . "` route not configured for " . $_SERVER['REQUEST_METHOD']. " request method.");
+        if(!in_array($route['url'], $this->incorrectRoutes) && $route != NULL) {
+            JSONResponse::message(405, "Error occured: `" . $route['url'] . "` route not configured for " . $_SERVER['REQUEST_METHOD']. " request method.");
             $this->incorrectRoutes[] = $route['url'];
         }
     }
