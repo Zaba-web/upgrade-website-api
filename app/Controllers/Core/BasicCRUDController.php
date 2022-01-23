@@ -26,8 +26,22 @@ abstract class BasicCRUDController implements Controller {
         JSONResponse::GETResponse($record);
     }
 
+    /**
+     * Delete record by id
+     * 
+     * @param int $id
+     */
     public function delete($id) {
         $result = $this->Model->deleteById($id);
         JSONResponse::DefaultSuccessResponse($result);
+    }
+
+    /**
+     * Since PUT does not support form-data, it need to be parsed from JSON
+     * 
+     * @return array
+     */
+    protected function getPutData() {
+        return json_decode(file_get_contents('php://input'), true);
     }
 }
