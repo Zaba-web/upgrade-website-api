@@ -3,7 +3,7 @@
 namespace App\Services\Routing;
 
 class Route {
-    public static function DECLARE($url, $handler, $method) {
+    public static function Declare($url, $handler, $method) {
         return [
             'url' => $url,
             'handler' => $handler,
