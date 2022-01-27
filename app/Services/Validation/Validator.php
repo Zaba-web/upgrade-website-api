@@ -8,9 +8,9 @@ class Validator {
         $result = true;
 
         foreach($rules as $rule) {
-            if(!$rule->isValid) {
+            if(!$rule['isValid']) {
                 $result = false;
-                $resultMessages[] = $rule->message;
+                $resultMessages[] = $rule['message'];
             }
         }
 
