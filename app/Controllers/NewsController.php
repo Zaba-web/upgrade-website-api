@@ -6,10 +6,6 @@ use App\Controllers\Core\BasicCRUDController;
 use App\Models\News;
 use App\Services\Response\JSONResponse;
 
-use App\Services\Validation\Validator;
-use App\Services\Validation\Rules\MaxLength;
-use App\Services\Validation\Rules\MinLength;
-
 class NewsController extends BasicCRUDController {
     public function __construct() {
         $this->Model = new News();
