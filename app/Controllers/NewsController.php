@@ -6,20 +6,23 @@ use App\Controllers\Core\BasicCRUDController;
 use App\Models\News;
 use App\Services\Response\JSONResponse;
 
+use App\Services\Validation\Validator;
+use App\Services\Validation\Rules\MaxLength;
+use App\Services\Validation\Rules\MinLength;
+
 class NewsController extends BasicCRUDController {
     public function __construct() {
         $this->Model = new News();
     }
 
     public function create() {
-        $model = $this->Model->getModel([
-            $_POST['date'],
-            $_POST['title'],
-            $_POST['photo'],
-            $_POST['text'],
-            0,
-            date("Y-m-d H:i:s")
-        ]);
+        $validationResult = $this->validateNotEmpty($_POST['title'], "Заголовок");
+
+        if(!$validationResult['isValid']) {
+            return JSONResponse::message(406, $validationResult);
+        }
+
+        $model = $this->Model->getModel([$_POST['date'],$_POST['title'],$_POST['photo'],$_POST['text'],0,date("Y-m-d H:i:s")]);
 
         $result = $this->Model->create($model);
         JSONResponse::POSTResponse($result);
@@ -37,14 +40,13 @@ class NewsController extends BasicCRUDController {
     public function update($id) {
         $_PUT = $this->getPutData();
         
-        $model = $this->Model->getModel([
-                $_PUT['date'],
-                $_PUT['title'],
-                $_PUT['photo'],
-                $_PUT['text'],
-                $_PUT['views'],
-                date("Y-m-d H:i:s")
-        ]);
+        $validationResult = $this->validateNotEmpty($_PUT['title'], "Заголовок");
+
+        if(!$validationResult['isValid']) {
+            return JSONResponse::message(406, $validationResult);
+        }
+
+        $model = $this->Model->getModel([ $_PUT['date'], $_PUT['title'], $_PUT['photo'], $_PUT['text'], $_PUT['views'], date("Y-m-d H:i:s")]);
 
         $result = $this->Model->updateById($id, $model);
         JSONResponse::DefaultSuccessResponse($result);

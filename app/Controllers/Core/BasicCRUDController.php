@@ -5,6 +5,10 @@ namespace App\Controllers\Core;
 use App\Controllers\Core\Controller;
 use App\Services\Response\JSONResponse;
 
+use App\Services\Validation\Validator;
+use App\Services\Validation\Rules\MinLength;
+use App\Services\Validation\Rules\MaxLength;
+
 abstract class BasicCRUDController implements Controller {
     protected $Model = null;
 
@@ -43,5 +47,18 @@ abstract class BasicCRUDController implements Controller {
      */
     protected function getPutData() {
         return json_decode(file_get_contents('php://input'), true);
+    }
+
+    /**
+     * Check if string is not empty
+     * 
+     * @param $string string to check
+     * @return bool result
+     */
+    protected function validateNotEmpty($string, $paramName) {
+        return Validator::Validate([
+            (new MinLength($string, $paramName . " не може бути порожнім"))->validate(1),
+            (new MaxLength($string, $paramName . " не може бути більшим за 255 символів"))->validate(255)
+        ]);
     }
 }
