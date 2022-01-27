@@ -1,6 +1,7 @@
 <?php
 
 use App\Services\Routing\Route;
+use App\Services\Routing\RequestMethod;
 
 use App\Controllers\NewsController;
 use App\Controllers\RegisterController;
@@ -8,6 +9,8 @@ use App\Controllers\RoadmapController;
 use App\Controllers\TeamController;
 use App\Controllers\EventController;
 use App\Controllers\ActivityController;
+use App\Controllers\PublicationController;
+use App\Controllers\AuthController;
 
 $routes = [
 
@@ -16,123 +19,162 @@ $routes = [
     Route::Declare('/news', function(){
         $newsController = new NewsController();
         $newsController->getAllRecords();
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->getById($id);
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/news', function(){
         $newsController = new NewsController();
         $newsController->create();
-    }, "POST"),
+    }, RequestMethod::POST()),
 
     Route::Declare('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->delete($id);
-    }, "DELETE"),
+    }, RequestMethod::DELETE()),
     
     Route::Declare('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->update($id);
-    }, "PUT"),
+    }, RequestMethod::PUT()),
 
     Route::Declare('/register', function(){
         $registerController = new RegisterController();
         $registerController->create();
-    }, "POST"),
+    }, RequestMethod::POST()),
 
     /* Team routes */
 
     Route::Declare('/team/member', function(){
         $teamController = new TeamController();
         $teamController->create();
-    }, "POST"),
+    }, RequestMethod::POST()),
 
     Route::Declare('/team', function(){
         $teamController = new TeamController();
         $teamController->getAllRecords();
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/team/member/*', function($id){
         $teamController = new TeamController();
         $teamController->getById($id);
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/team/member/*', function($id){
         $teamController = new TeamController();
         $teamController->delete($id);
-    }, "DELETE"),
+    }, RequestMethod::DELETE()),
 
     Route::Declare('/team/member/*', function($id){
         $teamController = new TeamController();
         $teamController->update($id);
-    }, "PUT"),
+    }, RequestMethod::PUT()),
 
     /* Roadmap routes */
 
     Route::Declare('/roadmap', function(){
         $roadmapController = new RoadmapController();
         $roadmapController->create();
-    }, "POST"),
+    }, RequestMethod::POST()),
 
     Route::Declare('/roadmap', function(){
         $roadmapController = new RoadmapController();
         $roadmapController->getAllRecords();
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/roadmap/*', function($id){
         $roadmapController = new RoadmapController();
         $roadmapController->update($id);
-    }, "PUT"),
+    }, RequestMethod::PUT()),
 
     Route::Declare('/roadmap/*', function($id){
         $roadmapController = new RoadmapController();
         $roadmapController->delete($id);
-    }, "PUT"),
+    }, RequestMethod::DELETE()),
 
     /* Events routes */
 
     Route::Declare('/events', function(){
         $eventsController = new EventController();
         $eventsController->create();
-    }, "POST"),
+    }, RequestMethod::POST()),
 
     Route::Declare('/events', function(){
         $eventsController = new EventController();
         $eventsController->getAllRecords();
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/events/*', function($id){
         $eventsController = new EventController();
         $eventsController->update($id);
-    }, "PUT"),
+    }, RequestMethod::PUT()),
 
     Route::Declare('/events/*', function($id){
         $eventsController = new EventController();
         $eventsController->delete($id);
-    }, "DELETE"),
+    }, RequestMethod::DELETE()),
 
     /*Activities routes*/
 
     Route::Declare('/activity', function(){
         $activityController = new ActivityController();
         $activityController->create();
-    }, "POST"),
+    }, RequestMethod::POST()),
 
     Route::Declare('/activity', function(){
         $activityController = new ActivityController();
         $activityController->getAllRecords();
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/activity/*', function($id){
         $activityController = new ActivityController();
         $activityController->getById($id);
-    }, "GET"),
+    }, RequestMethod::GET()),
 
     Route::Declare('/activity/*', function($id){
         $activityController = new ActivityController();
         $activityController->update($id);
-    }, "PUT"),
+    }, RequestMethod::PUT()),
+
+    Route::Declare('/activity/*', function($id){
+        $activityController = new ActivityController();
+        $activityController->delete($id);
+    }, RequestMethod::DELETE()),
+
+    /* Publications routes */
+
+    Route::Declare('/publication', function(){
+        $publicationController = new PublicationController();
+        $publicationController->create();
+    }, RequestMethod::POST()),
+
+    Route::Declare('/activity/*/publications', function($id){
+        $publicationController = new PublicationController();
+        $publicationController->getByActivityId($id);
+    }, RequestMethod::GET()),
+
+    Route::Declare('/publication/*', function($id){
+        $publicationController = new PublicationController();
+        $publicationController->getById($id);
+    }, RequestMethod::GET()),
+
+    Route::Declare('/publication/*', function($id){
+        $publicationController = new PublicationController();
+        $publicationController->update($id);
+    }, RequestMethod::PUT()),
+
+    Route::Declare('/publication/*', function($id){
+        $publicationController = new PublicationController();
+        $publicationController->delete($id);
+    }, RequestMethod::DELETE()),
+
+    /* Login routes */
+
+    Route::Declare('/login', function(){
+        $authController = new AuthController();
+        $authController->authenticate();
+    }, RequestMethod::POST()),
 ];
