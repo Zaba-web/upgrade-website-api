@@ -17,7 +17,7 @@ class JWTDecoder {
      * ]
      * or false if it is not
      */
-    public static function encode($tokenString) {
+    public static function decode($tokenString) {
         $verifier = new JWTVerifier;
 
         if(!$verifier->verify($tokenString)) {
