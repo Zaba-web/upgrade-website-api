@@ -67,9 +67,8 @@ abstract class Model {
      * @return bool
      */
     public function create($model) {
-        $modelData = $this->handleInputModel($model);
-        $columnNames = $modelData[0];
-        $valuesToString = $modelData[1];
+        $columnNames = $this->getModelKeys($model);
+        $valuesToString = $this->getModelValues($model);
 
         $queryString = "INSERT INTO " . $this->tableName . "(" . $columnNames . ") VALUES (" . $valuesToString . ")";
 
@@ -110,9 +109,8 @@ abstract class Model {
     public function updateById($_id, $model) {
         $id = DB::GetInstance()->real_escape_string($_id);
         
-        $modelData = $this->handleInputModel($model, false);
-        $keys = $modelData[0];
-        $values = $modelData[1];;
+        $keys = $this->getModelKeys($model, false);
+        $values = $this->getModelValues($model, false);
 
         $updateArray = [];
         for($i = 0; $i < count($keys); $i++) {
@@ -133,27 +131,49 @@ abstract class Model {
     }
 
     /**
-     * Get data ready to insert into DB
+     * If $preperedForQuery get array of model keys
+     * Else get string prepared to query "columnName1, columnName2..."
      * 
-     * @param array $model model of the record
+     * @param array $model model of new record
+     * @param bool $preperedForQuery implode in string with ', ' delimited if true
+     * 
+     * @return string|array<string> if $preperedForQuery is true it is a string, else array
      */
-    private function handleInputModel($model, $implodeInString = true) {
+    private function getModelKeys($model, $preperedForQuery = true) {
         $keys = array_keys($model);
+
+        for($i = 0; $i < count($keys); $i++) {
+            $keys[$i] = DB::GetInstance()->real_escape_string($keys[$i]);
+        }
+
+        if(!$preperedForQuery) {
+            return $keys;
+        }
+
+        return implode(', ', $keys);
+    }
+
+    /**
+     * If $preperedForQuery is true get array of model values
+     * Else get string prepared to query "'value1', 'value2'..."
+     * 
+     * @param array $model model of new record
+     * @param bool $preperedForQuery implode in string with ', ' delimited if true
+     * 
+     * @return string|array<string> if $preperedForQuery is true it is a string, else array
+     */
+    private function getModelValues($model, $preperedForQuery = true) {
         $values = array_values($model);
 
         for($i = 0; $i < count($values); $i++) {
-            $keys[$i] = DB::GetInstance()->real_escape_string($keys[$i]);
             $values[$i] = DB::GetInstance()->real_escape_string($values[$i]);
             $values[$i] = "'".$values[$i]."'";
         }
 
-        if($implodeInString) {
-            $columnNames = implode(', ', $keys);
-            $valuesToString = implode(', ', $values);
-
-            return [$columnNames, $valuesToString];
-        } else {
-            return [$keys, $values];
+        if(!$preperedForQuery) {
+            return $values;
         }
+
+        return implode(', ', $values);
     }
 }
