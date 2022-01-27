@@ -14,6 +14,8 @@ use App\Services\Validation\Rules\MaxLength;
 use App\Services\Validation\Rules\SameAs;
 
 class RegisterController implements Controller {
+    private $Model;
+    
     public function __construct() {
         $this->Model = new User();
     }
