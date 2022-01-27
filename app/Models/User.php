@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Models\Core\Model;
 
 class User extends Model {
-    protected $tableName = 'user';
+    protected $tableName = 'users';
     protected $model = [
-        'id' => '',
         'access_level' => 0,
+        'active' => 0,
         'name' => '',
         'email' => '',
         'password' => ''
