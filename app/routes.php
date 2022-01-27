@@ -2,7 +2,7 @@
 
 use App\Services\Routing\Route;
 use App\Controllers\NewsController;
-use App\Services\Validation\Rules\MinLength;
+use App\Controllers\RegisterController;
 
 $routes = [
     Route::Declare('/news', function(){
@@ -30,8 +30,8 @@ $routes = [
         $newsController->update($id);
     }, "PUT"),
 
-    // Route::DECLARE('/test', function(){
-    //     $r = new MinLength("tes");
-    //     var_dump($r->validate(3));
-    // }, "GET")
+    Route::Declare('/register', function(){
+        $registerController = new RegisterController();
+        $registerController->create();
+    }, "POST")
 ];
