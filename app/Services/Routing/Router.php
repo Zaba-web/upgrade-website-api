@@ -42,14 +42,14 @@ class Router {
         }
 
         if($route === null) {
-            return JSONResponse::message(404, "Помилка: Маршрут " . $urlQuery . " не знайдено.");
+            return JSONResponse::message(404, ["message" => "Помилка: Маршрут " . $urlQuery . " не знайдено."]);
         }
 
         if ($route['accessRestriction'] !== false ) {
             $userAccessLevel = AuthController::authorize();
 
             if($userAccessLevel == false || $userAccessLevel < $route['accessRestriction']) {
-                return JSONResponse::message(401, "Помилка: ви не вповноважені на виконання даної операції.");
+                return JSONResponse::message(401, ["Помилка: ви не вповноважені на виконання даної операції."]);
             }
         }
 
@@ -192,7 +192,7 @@ class Router {
      */
     private function handleIncorrectRoutes($route) {
         if(!in_array($route['url'], $this->incorrectRoutes) && $route != NULL) {
-            JSONResponse::message(405, "Error occured: `" . $route['url'] . "` route not configured for " . $_SERVER['REQUEST_METHOD']. " request method.");
+            JSONResponse::message(405, "Помилка: `" . $route['url'] . "` не підтримує метод " . $_SERVER['REQUEST_METHOD']. ".");
             $this->incorrectRoutes[] = $route['url'];
         }
     }
