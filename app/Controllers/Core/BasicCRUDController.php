@@ -37,7 +37,7 @@ abstract class BasicCRUDController implements Controller {
      */
     public function delete($id) {
         $result = $this->Model->deleteById($id);
-        JSONResponse::DefaultSuccessResponse($result);
+        return JSONResponse::DefaultSuccessResponse($result);
     }
 
     /**
