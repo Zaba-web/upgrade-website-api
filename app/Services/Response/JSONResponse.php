@@ -40,7 +40,7 @@ class JSONResponse {
      */
     public static function POSTResponse($result) {
         if($result) {
-            JSONResponse::message(201, []);
+            JSONResponse::message(201, $result);
         } else {
             JSONResponse::message(400, []);
         }
@@ -53,7 +53,7 @@ class JSONResponse {
      */
     public static function DefaultSuccessResponse($result) {
         if($result) {
-            JSONResponse::message(200, []);
+            JSONResponse::message(200, $result);
         } else {
             JSONResponse::message(520, []);
         }
