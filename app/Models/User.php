@@ -31,4 +31,9 @@ class User extends Model {
 
         return false;
     }
+
+    public function getLastUserId() {
+        $queryResult = DB::GetInstance()->query("SELECT MAX(id) FROM users");
+        return DB::FetchResult($queryResult)[0]['MAX(id)'];
+    }
 }
