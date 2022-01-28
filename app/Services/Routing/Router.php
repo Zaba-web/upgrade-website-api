@@ -3,6 +3,7 @@
 namespace App\Services\Routing;
 
 use App\Services\Response\JSONResponse;
+use App\Controllers\AuthController;
 
 class Router {
     private $routes = [];
@@ -24,23 +25,35 @@ class Router {
     private function handleCurrentRoute() {
         $urlQuery = $_GET['url'];
 
+        $route = null;
+        $params = [];
+
         $staticRoute = $this->findStaticRoute($urlQuery);
+
         if($staticRoute) {
-            call_user_func($staticRoute['handler']);
-            return ;
+            $route = $staticRoute;
         }
 
         $dynamicRouteResult = $this->findDynamicRoute($urlQuery);
+
         if($dynamicRouteResult) {
             $route = $dynamicRouteResult[0];
             $params = $dynamicRouteResult[1];
-
-            call_user_func_array($route['handler'], $params);
-
-            return ;
         }
 
-        JSONResponse::message(404, "Error occured: Route " . $urlQuery . " not found.");
+        if($route === null) {
+            return JSONResponse::message(404, "Помилка: Маршрут " . $urlQuery . " не знайдено.");
+        }
+
+        if ($route['accessRestriction'] !== false ) {
+            $userAccessLevel = AuthController::authorize();
+
+            if($userAccessLevel == false || $userAccessLevel < $route['accessRestriction']) {
+                return JSONResponse::message(401, "Помилка: ви не вповноважені на виконання даної операції.");
+            }
+        }
+
+        call_user_func_array($route['handler'], $params);
     }
 
     /** 
