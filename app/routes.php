@@ -12,6 +12,8 @@ use App\Controllers\ActivityController;
 use App\Controllers\PublicationController;
 use App\Controllers\AuthController;
 
+use App\Services\Email\EmailSender;
+
 $routes = [
 
     /* News routes */
@@ -41,12 +43,17 @@ $routes = [
         $newsController->update($id);
     }, RequestMethod::PUT(), AuthController::ADMIN()),
 
-    /* Admin routes */
+    /* Register routes */
 
     Route::Declare('/register', function(){
         $registerController = new RegisterController();
         $registerController->create();
     }, RequestMethod::POST()),
+
+    Route::Declare('/confirm/*', function($hash){
+        $registerController = new RegisterController();
+        $registerController->confirm($hash);
+    }, RequestMethod::GET()),
 
     /* Team routes */
 
