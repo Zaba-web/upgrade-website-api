@@ -29,17 +29,19 @@ $routes = [
     Route::Declare('/news', function(){
         $newsController = new NewsController();
         $newsController->create();
-    }, RequestMethod::POST()),
+    }, RequestMethod::POST(), AuthController::ADMIN()),
 
     Route::Declare('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->delete($id);
-    }, RequestMethod::DELETE()),
+    }, RequestMethod::DELETE(), AuthController::ADMIN()),
     
     Route::Declare('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->update($id);
-    }, RequestMethod::PUT()),
+    }, RequestMethod::PUT(), AuthController::ADMIN()),
+
+    /* Admin routes */
 
     Route::Declare('/register', function(){
         $registerController = new RegisterController();
@@ -51,7 +53,7 @@ $routes = [
     Route::Declare('/team/member', function(){
         $teamController = new TeamController();
         $teamController->create();
-    }, RequestMethod::POST()),
+    }, RequestMethod::POST(), AuthController::ADMIN()),
 
     Route::Declare('/team', function(){
         $teamController = new TeamController();
@@ -66,19 +68,19 @@ $routes = [
     Route::Declare('/team/member/*', function($id){
         $teamController = new TeamController();
         $teamController->delete($id);
-    }, RequestMethod::DELETE()),
+    }, RequestMethod::DELETE(), AuthController::ADMIN()),
 
     Route::Declare('/team/member/*', function($id){
         $teamController = new TeamController();
         $teamController->update($id);
-    }, RequestMethod::PUT()),
+    }, RequestMethod::PUT(), AuthController::ADMIN()),
 
     /* Roadmap routes */
 
     Route::Declare('/roadmap', function(){
         $roadmapController = new RoadmapController();
         $roadmapController->create();
-    }, RequestMethod::POST()),
+    }, RequestMethod::POST(), AuthController::ADMIN()),
 
     Route::Declare('/roadmap', function(){
         $roadmapController = new RoadmapController();
@@ -88,19 +90,19 @@ $routes = [
     Route::Declare('/roadmap/*', function($id){
         $roadmapController = new RoadmapController();
         $roadmapController->update($id);
-    }, RequestMethod::PUT()),
+    }, RequestMethod::PUT(), AuthController::ADMIN()),
 
     Route::Declare('/roadmap/*', function($id){
         $roadmapController = new RoadmapController();
         $roadmapController->delete($id);
-    }, RequestMethod::DELETE()),
+    }, RequestMethod::DELETE(), AuthController::ADMIN()),
 
     /* Events routes */
 
     Route::Declare('/events', function(){
         $eventsController = new EventController();
         $eventsController->create();
-    }, RequestMethod::POST()),
+    }, RequestMethod::POST(), AuthController::ADMIN()),
 
     Route::Declare('/events', function(){
         $eventsController = new EventController();
@@ -110,19 +112,19 @@ $routes = [
     Route::Declare('/events/*', function($id){
         $eventsController = new EventController();
         $eventsController->update($id);
-    }, RequestMethod::PUT()),
+    }, RequestMethod::PUT(), AuthController::ADMIN()),
 
     Route::Declare('/events/*', function($id){
         $eventsController = new EventController();
         $eventsController->delete($id);
-    }, RequestMethod::DELETE()),
+    }, RequestMethod::DELETE(), AuthController::ADMIN()),
 
     /*Activities routes*/
 
     Route::Declare('/activity', function(){
         $activityController = new ActivityController();
         $activityController->create();
-    }, RequestMethod::POST()),
+    }, RequestMethod::POST(), AuthController::ADMIN()),
 
     Route::Declare('/activity', function(){
         $activityController = new ActivityController();
@@ -137,19 +139,19 @@ $routes = [
     Route::Declare('/activity/*', function($id){
         $activityController = new ActivityController();
         $activityController->update($id);
-    }, RequestMethod::PUT()),
+    }, RequestMethod::PUT(), AuthController::ADMIN()),
 
     Route::Declare('/activity/*', function($id){
         $activityController = new ActivityController();
         $activityController->delete($id);
-    }, RequestMethod::DELETE()),
+    }, RequestMethod::DELETE(), AuthController::ADMIN()),
 
     /* Publications routes */
 
     Route::Declare('/publication', function(){
         $publicationController = new PublicationController();
         $publicationController->create();
-    }, RequestMethod::POST()),
+    }, RequestMethod::POST(), AuthController::ADMIN()),
 
     Route::Declare('/activity/*/publications', function($id){
         $publicationController = new PublicationController();
@@ -159,17 +161,17 @@ $routes = [
     Route::Declare('/publication/*', function($id){
         $publicationController = new PublicationController();
         $publicationController->getById($id);
-    }, RequestMethod::GET()),
+    }, RequestMethod::GET(), AuthController::USER()),
 
     Route::Declare('/publication/*', function($id){
         $publicationController = new PublicationController();
         $publicationController->update($id);
-    }, RequestMethod::PUT()),
+    }, RequestMethod::PUT(), AuthController::ADMIN()),
 
     Route::Declare('/publication/*', function($id){
         $publicationController = new PublicationController();
         $publicationController->delete($id);
-    }, RequestMethod::DELETE()),
+    }, RequestMethod::DELETE(), AuthController::ADMIN()),
 
     /* Login routes */
 

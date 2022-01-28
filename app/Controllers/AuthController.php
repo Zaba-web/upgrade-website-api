@@ -42,7 +42,7 @@ class AuthController implements Controller {
         ]);
     }
 
-    public function authorize() {
+    public static function authorize() {
         $headers = apache_request_headers();
 
         if(!$headers["Authorization"]) {
@@ -50,15 +50,28 @@ class AuthController implements Controller {
         }
         
         $JWT = explode(" ", $headers['Authorization'])[1];
-
         $tokenData = JWTDecoder::decode($JWT);
 
         if(!$tokenData) {
-           false;
+           return false;
         }
 
         $userData = json_decode($tokenData['payload']);
 
         return $userData->access_level;
+    }
+
+    /**
+     * Get user access level
+     */
+    public static function USER() {
+        return 1;
+    }
+
+    /**
+     * Get admin access level
+     */
+    public static function ADMIN() {
+        return 2;
     }
 }
