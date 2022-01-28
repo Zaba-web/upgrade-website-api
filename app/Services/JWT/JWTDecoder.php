@@ -7,7 +7,7 @@ use App\Services\JWT\Base64URL;
 class JWTDecoder {
 
     /**
-     * Decode JWT
+     * Decode JWT and check if it uncorrupted
      * 
      * @param string $tokenString token to decode
      * @return array|bool if token is verified then array with following structure: 
