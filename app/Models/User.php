@@ -25,7 +25,7 @@ class User extends Model {
 
         $user = DB::FetchResult($queryResult)[0];
 
-        if(password_verify($password, $user['password']) && $user['active'] != 0) {
+        if(password_verify($password, $user['password']) && $user['active'] > 0) {
             return $user;
         }
 
