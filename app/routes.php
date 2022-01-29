@@ -12,8 +12,6 @@ use App\Controllers\ActivityController;
 use App\Controllers\PublicationController;
 use App\Controllers\AuthController;
 
-use App\Services\Email\EmailSender;
-
 $routes = [
 
     /* News routes */
@@ -23,9 +21,19 @@ $routes = [
         $newsController->getAllRecords();
     }, RequestMethod::GET()),
 
+    Route::Declare('/news/count/*', function($count){
+        $newsController = new NewsController();
+        $newsController->getLimited($count);
+    }, RequestMethod::GET()),
+
     Route::Declare('/news/*', function($id){
         $newsController = new NewsController();
         $newsController->getById($id);
+    }, RequestMethod::GET()),
+
+    Route::Declare('/news/*/also', function($id){
+        $newsController = new NewsController();
+        $newsController->getReadAlso($id);
     }, RequestMethod::GET()),
 
     Route::Declare('/news', function(){
@@ -65,6 +73,21 @@ $routes = [
     Route::Declare('/team', function(){
         $teamController = new TeamController();
         $teamController->getAllRecords();
+    }, RequestMethod::GET()),
+
+    Route::Declare('/team/members', function(){
+        $teamController = new TeamController();
+        $teamController->getMainMembers();
+    }, RequestMethod::GET()),
+
+    Route::Declare('/team/mentor', function(){
+        $teamController = new TeamController();
+        $teamController->getMentor();
+    }, RequestMethod::GET()),
+
+    Route::Declare('/team/assistance', function(){
+        $teamController = new TeamController();
+        $teamController->getAssistance();
     }, RequestMethod::GET()),
 
     Route::Declare('/team/member/*', function($id){
@@ -116,6 +139,11 @@ $routes = [
         $eventsController->getAllRecords();
     }, RequestMethod::GET()),
 
+    Route::Declare('/events/count/*', function($count){
+        $eventsController = new EventController();
+        $eventsController->getLimited($count);
+    }, RequestMethod::GET()),
+
     Route::Declare('/events/*', function($id){
         $eventsController = new EventController();
         $eventsController->update($id);
@@ -136,6 +164,11 @@ $routes = [
     Route::Declare('/activity', function(){
         $activityController = new ActivityController();
         $activityController->getAllRecords();
+    }, RequestMethod::GET()),
+
+    Route::Declare('/activity/list/*', function($type){
+        $activityController = new ActivityController();
+        $activityController->getByType($type);
     }, RequestMethod::GET()),
 
     Route::Declare('/activity/*', function($id){
