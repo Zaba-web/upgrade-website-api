@@ -62,7 +62,7 @@ class RegisterController implements Controller {
         $user = $this->Model->getById($userId)[0];
 
         $this->fetchRegisterData($user);
-        $newUserModel = $this->createModel();
+        $newUserModel = $this->createModel(false);
         $newUserModel['active'] = 1;
 
         if(!$this->Model->updateById($userId, $newUserModel)) {
@@ -95,8 +95,8 @@ class RegisterController implements Controller {
         $this->password_re = $source['password_re'];
     }
 
-    private function createModel() {
-        $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
+    private function createModel($hash = true) {
+        $hashed_password = $hash ? password_hash($this->password, PASSWORD_DEFAULT) : $this->password;
 
         return $this->Model->getModel([
             1, // access level
@@ -115,7 +115,7 @@ class RegisterController implements Controller {
 
         if($confirmationCreated) {
             $this->mailSender->send(
-                "Confirmation | Upgrade", 
+                "Підтвердження | Upgrade", 
                 "Доброго дня, <b>" . $this->name . "</b>! <br> <p>Дякуємо вам за реєстрацію. Для того, щоб завершити процес, підтвердіть адресу електронної пошти, перейшовши за <a href='http://api.upgrade/confirm/" . $hash . "'> посиланням.</p>", 
                 $this->email
             );
