@@ -36,6 +36,10 @@ class ActivityController extends BasicCRUDController {
         $model = $this->Model->getModel([$_PUT['type'], $_PUT['title'], $_PUT['description'], $_PUT['big_image'], $_PUT['small_image']]);
 
         $result = $this->Model->updateById($id, $model);
-        JSONResponse::POSTResponse($result);
+        JSONResponse::DefaultSuccessResponse($result);
+    }
+
+    public function getByType($type) {
+        return JSONResponse::GETResponse($this->Model->getByType($type));
     }
 }
