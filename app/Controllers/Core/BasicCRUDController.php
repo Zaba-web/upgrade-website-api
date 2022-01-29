@@ -21,6 +21,14 @@ abstract class BasicCRUDController implements Controller {
     }
 
     /**
+     * Get limited count of records
+     */
+    public function getLimited($limit) {
+        $allRecords = $this->Model->getLimited($limit);
+        JSONResponse::GETResponse($allRecords);
+    }
+
+    /**
      * Get single record by id
      * 
      * @param int $id
