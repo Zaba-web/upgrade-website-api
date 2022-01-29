@@ -11,6 +11,7 @@ use App\Controllers\EventController;
 use App\Controllers\ActivityController;
 use App\Controllers\PublicationController;
 use App\Controllers\AuthController;
+use App\Controllers\ContactMessagesController;
 
 $routes = [
 
@@ -138,6 +139,11 @@ $routes = [
         $eventsController = new EventController();
         $eventsController->getAllRecords();
     }, RequestMethod::GET()),
+	
+	Route::Declare('/event/*', function($id){
+        $eventsController = new EventController();
+        $eventsController->getById($id);
+    }, RequestMethod::GET()),
 
     Route::Declare('/events/count/*', function($count){
         $eventsController = new EventController();
@@ -219,4 +225,8 @@ $routes = [
         $authController = new AuthController();
         $authController->authenticate();
     }, RequestMethod::POST()),
+
+    Route::Declare('/message', function(){
+        ContactMessagesController::send();
+    }, RequestMethod::POST())
 ];
