@@ -36,7 +36,7 @@ class PublicationController extends BasicCRUDController {
         $model = $this->Model->getModel([$_PUT['activity_id'], $_PUT['title'], $_PUT['description'], $_PUT['image'], $_PUT['text']]);
         
         $result = $this->Model->updateById($id, $model);
-        JSONResponse::POSTResponse($result);
+        JSONResponse::DefaultSuccessResponse($result);
     }
 
     public function getByActivityId($id) {
