@@ -32,8 +32,24 @@ abstract class Model {
      * @return object result if something found
      * @return false if nothing was found
      */
-    public function getAll() {
-        $queryResult = DB::GetInstance()->query('SELECT * FROM ' . $this->tableName);
+    public function getAll($order = "DESC") {
+        $queryResult = DB::GetInstance()->query('SELECT * FROM ' . $this->tableName . ' ORDER BY id '.$order);
+
+        if($queryResult) { 
+            return DB::FetchResult($queryResult);
+        }
+
+        return false;
+    }
+
+    /**
+     * Get limited count of records
+     * 
+     * @param string $order
+     * @param int $count
+     */
+    public function getLimited($count, $order = "DESC") {
+        $queryResult = DB::GetInstance()->query('SELECT * FROM ' . $this->tableName . " ORDER BY id " . $order . " LIMIT " . $count);
 
         if($queryResult) { 
             return DB::FetchResult($queryResult);
