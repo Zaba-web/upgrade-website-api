@@ -57,4 +57,8 @@ class NewsController extends BasicCRUDController {
 
         return $model;
     }
+
+    public function getReadAlso($id) {
+        return JSONResponse::GETResponse($this->Model->getReadAlso($id));
+    }
 }
