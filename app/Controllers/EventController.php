@@ -18,7 +18,7 @@ class EventController extends BasicCRUDController {
             return JSONResponse::message(406, $validationResult);
         }
 
-        $model = $this->Model->getModel([$_POST['type'], $_POST['date_str'], $_POST['title'], $_POST['description'], $_POST['image']]);
+        $model = $this->Model->getModel([$_POST['announce'], $_POST['type'], $_POST['active'], $_POST['date_str'], $_POST['title'], $_POST['description'], $_POST['image']]);
 
         $result = $this->Model->create($model);
         JSONResponse::POSTResponse($result);
@@ -33,7 +33,7 @@ class EventController extends BasicCRUDController {
             return JSONResponse::message(406, $validationResult);
         }
 
-        $model = $this->Model->getModel([$_PUT['type'], $_PUT['date_str'], $_PUT['title'], $_PUT['description'], $_PUT['image']]);
+        $model = $this->Model->getModel([$_PUT['announce'], $_PUT['type'], $_PUT['active'], $_PUT['date_str'], $_PUT['title'], $_PUT['description'], $_PUT['image']]);
 
         $result = $this->Model->updateById($id, $model);
         JSONResponse::DefaultSuccessResponse($result);

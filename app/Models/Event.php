@@ -7,7 +7,9 @@ use App\Models\Core\Model;
 class Event extends Model {
     protected $tableName = 'events';
     protected $model = [
-        'type' => 0,
+        'announce' => '',
+        'type' => '',
+        'active' => 0,
         'date_str' => '',
         'title' => '',
         'description' => '',
