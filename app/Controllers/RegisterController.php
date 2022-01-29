@@ -37,7 +37,7 @@ class RegisterController implements Controller {
         $validationResult = Validator::Validate($this->getValidationRules($this->email, $this->name, $this->password, $this->password_re));
     
         if(!$validationResult['isValid']) {
-            return JSONResponse::message(406, $validationResult);
+            return JSONResponse::message(203, $validationResult);
         }
 
         $user = $this->createModel();
@@ -116,7 +116,7 @@ class RegisterController implements Controller {
         if($confirmationCreated) {
             $this->mailSender->send(
                 "Підтвердження | Upgrade", 
-                "Доброго дня, <b>" . $this->name . "</b>! <br> <p>Дякуємо вам за реєстрацію. Для того, щоб завершити процес, підтвердіть адресу електронної пошти, перейшовши за <a href='http://api.upgrade/confirm/" . $hash . "'> посиланням.</p>", 
+                "Доброго дня, <b>" . $this->name . "</b>! <br> <p>Дякуємо вам за реєстрацію. Для того, щоб завершити процес, підтвердіть адресу електронної пошти, перейшовши за <a href='http://upgrade.tk.te.ua/confirm/" . $hash . "'> посиланням.</p>", 
                 $this->email
             );
         }

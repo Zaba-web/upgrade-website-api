@@ -16,8 +16,8 @@ class JSONResponse {
     public static function message($code, $message) {
         self::setContentType();
 
-        http_response_code($code);
         echo json_encode($message);
+        http_response_code($code);
     }
 
     /**

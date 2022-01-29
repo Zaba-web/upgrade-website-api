@@ -23,7 +23,7 @@ class AuthController implements Controller {
         $user = $this->Model->getUser($email, $password);
 
         if(!$user) {
-            return JSONResponse::message(401, [
+            return JSONResponse::message(203, [
                 "message" => "Не вдалося увійти. Перевірте правильність введених даних та переконайтесь, що підтвердили свій профіль через Email"
             ]);
         }
