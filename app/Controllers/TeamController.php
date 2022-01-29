@@ -40,4 +40,16 @@ class TeamController extends BasicCRUDController {
         JSONResponse::DefaultSuccessResponse($result);
     }
 
+    public function getMainMembers() {
+        return JSONResponse::GETResponse($this->Model->getMainMembers());
+    }
+
+    public function getMentor() {
+        return JSONResponse::GETResponse($this->Model->getMentor());
+    }
+
+    public function getAssistance() {
+        return JSONResponse::GETResponse($this->Model->getAssistance());
+    }
+
 }
