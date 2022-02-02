@@ -38,7 +38,12 @@ class AuthController implements Controller {
         $JWT = $jwtGen->create($dataToSend);
 
         return JSONResponse::message(202, [
-            "token" => $JWT
+            "token" => $JWT,
+            "user" => [
+                "name" => $user['name'],
+                "email" => $user['email'],
+                "isAdmin" => $user['access_level'] == self::ADMIN()
+            ]
         ]);
     }
 
