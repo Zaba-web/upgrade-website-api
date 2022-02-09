@@ -42,7 +42,7 @@ class JSONResponse {
         if($result) {
             JSONResponse::message(201, $result);
         } else {
-            JSONResponse::message(400, []);
+            JSONResponse::message(204, []);
         }
     }
 
