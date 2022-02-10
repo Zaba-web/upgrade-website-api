@@ -18,7 +18,7 @@ class RoadmapController extends BasicCRUDController {
             return JSONResponse::message(406, $validationResult);
         }
 
-        $model = $this->Model->getModel([$_POST['item_status'], $_POST['date_str'], $_POST['title'], $_POST['description'], $_POST['image']]);
+        $model = $this->Model->getModel([$_POST['item_status'], $_POST['title'], $_POST['date_str'], $_POST['description'], $_POST['image']]);
 
         $result = $this->Model->create($model);
         JSONResponse::POSTResponse($result);
