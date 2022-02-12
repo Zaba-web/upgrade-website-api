@@ -42,6 +42,16 @@ abstract class Model {
         return false;
     }
 
+    public function getSeparate($query, $order = "DESC") {
+        $queryResult = DB::GetInstance()->query('SELECT ' . $query . ' FROM ' . $this->tableName . ' ORDER BY id '.$order);
+        
+        if($queryResult) { 
+            return DB::FetchResult($queryResult);
+        }
+
+        return false;
+    }
+
     /**
      * Get limited count of records
      * 
