@@ -20,6 +20,11 @@ abstract class BasicCRUDController implements Controller {
         JSONResponse::GETResponse($allRecords);
     }
 
+    public function getSeparate($query, $order = "DESC"){
+        $records = $this->Model->getSeparate($query, $order);
+        JSONResponse::GETResponse($records);
+    }
+
     /**
      * Get limited count of records
      */
