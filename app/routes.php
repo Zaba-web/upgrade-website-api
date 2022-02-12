@@ -172,6 +172,11 @@ $routes = [
         $activityController->getAllRecords();
     }, RequestMethod::GET()),
 
+    Route::Declare('/activity/minified', function(){
+        $activityController = new ActivityController();
+        $activityController->getSeparate('id, title');
+    }, RequestMethod::GET()),
+
     Route::Declare('/activity/list/*', function($type){
         $activityController = new ActivityController();
         $activityController->getByType($type);
@@ -202,6 +207,11 @@ $routes = [
     Route::Declare('/activity/*/publications', function($id){
         $publicationController = new PublicationController();
         $publicationController->getByActivityId($id);
+    }, RequestMethod::GET()),
+
+    Route::Declare('/activity/*/publications/minified', function($id){
+        $publicationController = new PublicationController();
+        $publicationController->getByActivityId($id, "id, title, description");
     }, RequestMethod::GET()),
 
     Route::Declare('/publication/*', function($id){
