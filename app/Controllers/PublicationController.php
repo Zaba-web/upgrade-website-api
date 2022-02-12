@@ -39,8 +39,8 @@ class PublicationController extends BasicCRUDController {
         JSONResponse::DefaultSuccessResponse($result);
     }
 
-    public function getByActivityId($id) {
-        $records = $this->Model->getByActivityId($id);
+    public function getByActivityId($id, $query = "*") {
+        $records = $this->Model->getByActivityId($id, $query);
         JSONResponse::GETResponse($records);
     }
 }
