@@ -34,7 +34,9 @@ class Router {
             $route = $staticRoute;
         }
 
-        $dynamicRouteResult = $this->findDynamicRoute($urlQuery);
+        if($route == null) {
+            $dynamicRouteResult = $this->findDynamicRoute($urlQuery);
+        }
 
         if($dynamicRouteResult) {
             $route = $dynamicRouteResult[0];
