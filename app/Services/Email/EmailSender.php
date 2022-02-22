@@ -23,8 +23,10 @@ class EmailSender {
         $this->mail->SMTPSecure = "tls";
         $this->mail->Port = "587";
 
-        $this->mail->Username = "";
-        $this->mail->Password = "";
+        $this->mail->Username = "upgrade.ic.bot@gmail.com";
+        $this->mail->Password = "ritlcirkpjzkfnbf";
+
+        $this->mail->CharSet = "utf-8";
     }
 
     public function send($subject, $body, $to, $from = 'upgrade.ic.bot@gmail.com', $isHTML = true) {
